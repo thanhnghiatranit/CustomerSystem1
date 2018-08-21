@@ -1,0 +1,148 @@
+T002
+
+<%@page import="java.util.List"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="javax.swing.JInternalFrame.JDesktopIcon"%>
+<%@page import="fjs.cs.dao.MSTCUSTOMER_DAO"%>
+<%@page import="fjs.cs.dao.MSTCUSTOMER"%>
+<%@page import="java.io.PrintWriter"%>
+<%@page import="fjs.cs.common.JdbcSQLServerConnection"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<head>
+<title>Bootstrap Example</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<style>
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+th,td {
+	padding: 8px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+}
+
+tr:nth-child(even) {
+	background-color: #ffffff;
+}
+</style>
+
+<script type="text/javascript" src="WebContent/js/error.js"></script>
+
+<body style="background: #66ffff">
+
+	<div class="container">
+		<h2 style="color: red;">Training</h2>
+		<form></form>
+		<form class="form-group" action="Login" method="post" name="myform">
+			<div class="form-group">
+				<div class="col-sm-3">
+					Welcome:<%=session.getAttribute("txtUserID")%>
+				</div>
+				<div class="row">
+					<div class="form-group" style="margin-top: 20px">
+						<input action="logout" name="action" hidden value="logout"><input
+							type="submit" name="btnLogout" style="margin-left: 50px"
+							value="Logout" />
+					</div>
+				</div>
+				<input class="form-control input-sm"
+					style="background: blue; margin-bottom: 20px"></input>
+			</div>
+			<div class="form-group" style="background: #ffff33">
+				<div class="col-sm-5">
+					<label id="llbCustomername">Customer name:</label> <input
+						id="txtCustomerName"> <label>Sex </label> <select
+						id="llbSex">
+						<option></option>
+						<option>Male</option>
+						<option>Female</option>
+					</select>
+				</div>
+				<div class="col-sm-5">
+					<label>Birthday:</label> <input id="txtBirthdayForm">~<input
+						id="txtBirthdayTo">
+				</div>
+				<div class="col-sm-offset-11">
+					<button id="btnSearch" type="button" class="btn"
+						onclick="searchName()">Search</button>
+				</div>
+			</div>
+
+			<table id="myTable" class="display">
+				<thead>
+					<tr>
+						<th><input type="checkbox" name="checkbox"
+							onClick="toggle(this)" value="checkbox" onClick="toggle()"></th>
+						<th>Customer ID</th>
+						<th>Customer Name</th>
+						<th>Sex</th>
+						<th>Birthday</th>
+						<th>Address</th>
+					</tr>
+				</thead>
+				<tbody>
+					<%
+						MSTCUSTOMER_DAO dao = new MSTCUSTOMER_DAO();
+
+						for (MSTCUSTOMER customerlist : dao.getListCustomer()) {
+					%>
+					<tr>
+						<td><input type="checkbox" name="checkbox" class="styled"></td>
+						<td><a
+							href="../T003.jsp?idCustomer=<%=customerlist.getCustomer_ID()%>">
+								<%=(customerlist.getCustomer_ID() != null) ? customerlist
+						.getCustomer_ID() : ""%>
+						</a></td>
+						<td><%=(customerlist.getCustomer_Name() != null ? customerlist
+						.getCustomer_Name() : "")%></td>
+						<td><%=(customerlist.getSex() != null ? customerlist
+						.getSex() : "")%></td>
+						<td><%=(customerlist.getBirthday() != null ? customerlist
+						.getBirthday() : "")%></td>
+						<td><%=(customerlist.getAddress() != null ? customerlist
+						.getAddress() : "")%></td>
+					</tr>
+				</tbody>
+				<%
+					}
+				%>
+			</table>
+
+
+
+
+
+			<br>
+		</form>
+		<div class="form-group">
+			<input name="btnAddnew"  type="submit" value="Add New">
+			<input name="listDelete"></input> <input action="delete"
+				name="btnDelete" type="submit" value="Delete" />
+		</div>
+
+	</div>
+
+</body>
+
+</html>
